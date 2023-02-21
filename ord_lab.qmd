@@ -1,0 +1,148 @@
+---
+title: "Ordinal Regression Lab"
+editor: visual
+---
+
+# Lab 3- Ordinal Regression
+
+## Instructions
+
+-   If you are fitting a model, display the model output in a neatly formatted table. (The `tidy` and `kable` functions can help!)
+
+-   If you are creating a plot, use clear labels for all axes, titles, etc.
+
+-   Commit and push your work to GitHub regularly, at least after each exercise. Write short and informative commit messages.
+
+-   When you're done, we should be able to knit the final version of the QMD in your GitHub as a HTML.
+
+# Lab
+
+I am a huge fan of Great British Bake-off. The data for this week's lab is taken from https://bakeoff.netlify.app/. In this lab you will be looking at `Gender` and `Age` as a predictor of technical rank. For this exercise, we will only be looking at those who were in top 3 of technical.
+
+In the GBBO technical, the bakers are usually provided with a list of ingredients and basic instructions, but they may not have access to specific measurements or details on how to prepare the ingredients. The judges evaluate the bakers' finished products based on factors such as appearance, texture, and flavor, but also compare the bakers' results to a standard version of the recipe that has been prepared in advance by the judges or a baking expert.
+
+The dataset contains 3 variables:
+
+-   `Gender`: M = MALE, F = FEMALE
+
+-   `Age`: Age of baker
+
+-   `Technical Rank`: Rank in technical (1,2,3)
+
+## Load packages:
+
+```{r}
+library(tidyverse)
+library(ordinal) #clm
+library(car) # anova
+library(ggeffects) #  viz
+library(performance) # pp_check
+library(gofcat) # brant
+library(brms)
+library(emmeans) # contrasts
+
+```
+
+## Load data
+
+-   Make sure only the top 3 ranks are being used. *For some reason, there are missing ranks (my guess is they did not announce rank on TV)*
+
+```{r}
+
+gbbo <- read_csv("https://raw.githubusercontent.com/jgeller112/psy504-advanced-stats/main/slides/Ordinal_Regression/data/GBBO.csv")
+
+gbbo
+
+```
+
+## Explore
+
+-   Plot two figures showing the percentage of bakers in each rank--- create one for `Gender` and `Age`
+
+    ```{r}
+
+    ```
+
+```{r}
+
+```
+
+## Ordinal Analysis
+
+-   Convert the outcome variable to an ordered factor. What does the order here represent?
+
+    ```{r}
+
+
+    ```
+
+    The model is ordered from 1st -3. You could also reverse this with ftc_rev. We can interpret this as postive slope = higher prob of being in 2-3rd place.
+
+-   Convert input variables to categorical factors as appropriate.
+
+    ```{r}
+
+
+    ```
+
+-   Run a ordinal logistic regression model against all relevant input variables. Interpret the effects for `Gender`, `Age` and `Gender*Age` (even if they are non-significant).
+
+    ```{r}
+
+    ```
+
+-   Test if the interaction is warranted
+
+    ```{r}
+
+    ```
+
+-   Use `ggemmeans` to create a figure showing the interaction between `Gender` and `Age` as a function of rank. Plot predicted probabilities from the model.
+
+    ```{r}
+
+
+
+    ```
+
+-   Construct new outcome variables and use a stratified binomial approach to determine if the proportional odds assumption holds for your model. Are there any input variables for which you may be concerned that the assumption is violated? What would you consider doing in this case?
+
+    ```{r}
+
+    ```
+
+-   Use the Brant test to support or reject the hypothesis that the proportional odds assumption holds for your simplified model.
+
+    ```{r}
+
+    ```
+
+-   Write a full report on your model
+
+    ## `brms`
+
+-   Reference the readings from this week and run the above model in `brms`. Do not worry about priors we will just use the default priors for this. You will notice there are no *p*-values (the horror!!!). Focus on the population-level effects from the output and look at the 95% credible intervals (if they don't include zero you can use this as an index of significance, or lack of). Are there any differences between the model you fit with `clm` and the one you fit with `brms`?
+
+    ```{r}
+
+
+
+    ```
+
+-   Use the `conditional_effects` function to plot predicted probabilities by Gender and Age across each rank. *Note: the papers use marginal_effects but that has been replaced with conditional_effects.*
+
+    ```{r}
+
+
+
+
+    ```
+
+-   Use `check_predictions` from the `easystats` `performance` package. It is useful for examining model fit (i.e., does the data fit the model being used?). Run the below code. What do you think?
+
+    ```{r}
+    #check_predictions(model)
+
+    ```
+
+    \
