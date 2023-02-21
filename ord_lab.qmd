@@ -1,6 +1,12 @@
 ---
 title: "Ordinal Regression Lab"
+format:
+      html:
+        code-fold: true
 editor: visual
+execute: 
+  message: false
+  warning: false
 ---
 
 # Lab 3- Ordinal Regression
@@ -36,7 +42,7 @@ library(tidyverse)
 library(ordinal) #clm
 library(car) # anova
 library(ggeffects) #  viz
-library(performance) # pp_check
+library(performance) # pp_check check_predictions
 library(gofcat) # brant
 library(brms)
 library(emmeans) # contrasts
@@ -45,13 +51,11 @@ library(emmeans) # contrasts
 
 ## Load data
 
--   Make sure only the top 3 ranks are being used. *For some reason, there are missing ranks (my guess is they did not announce rank on TV)*
+-   Make sure ranks 1-3 are only being used. *For some reason, there are missing ranks (my guess is they did not announce rank on TV)*
 
 ```{r}
 
 gbbo <- read_csv("https://raw.githubusercontent.com/jgeller112/psy504-advanced-stats/main/slides/Ordinal_Regression/data/GBBO.csv")
-
-gbbo
 
 ```
 
@@ -67,18 +71,21 @@ gbbo
 
 ```
 
+-   Create a crosstable (https://cran.r-project.org/web/packages/crosstable/vignettes/crosstable.html) to create a table showing the count across `Gender` and `Age` as a function on rank
+
+    ```{r}
+    ```
+
 ## Ordinal Analysis
 
--   Convert the outcome variable to an ordered factor. What does the order here represent?
+-   Convert the outcome variable to an ordered factor. How is your data ordered?
 
     ```{r}
 
 
     ```
 
-    The model is ordered from 1st -3. You could also reverse this with ftc_rev. We can interpret this as postive slope = higher prob of being in 2-3rd place.
-
--   Convert input variables to categorical factors as appropriate.
+-   Convert input variables to categorical factors as appropriate
 
     ```{r}
 
@@ -121,10 +128,9 @@ gbbo
 
     ## `brms`
 
--   Reference the readings from this week and run the above model in `brms`. Do not worry about priors we will just use the default priors for this. You will notice there are no *p*-values (the horror!!!). Focus on the population-level effects from the output and look at the 95% credible intervals (if they don't include zero you can use this as an index of significance, or lack of). Are there any differences between the model you fit with `clm` and the one you fit with `brms`?
+-   Reference the readings from this week and run the above model in `brms`. Do not worry about priors. We will just use the defaults. Focus on the population-level effects from the output and look at the 95% credible intervals (if they don't include zero you can use this as an index of significance, or lack of). Are there any differences between the model you fit with `clm` and the one you fit with `brms`?
 
     ```{r}
-
 
 
     ```
